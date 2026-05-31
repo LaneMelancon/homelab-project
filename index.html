@@ -1,0 +1,2678 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Homelab Project</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=JetBrains+Mono:wght@300;400;500&display=swap"
+			rel="stylesheet"
+		/>
+		<style>
+			*,
+			*::before,
+			*::after {
+				box-sizing: border-box;
+				margin: 0;
+				padding: 0;
+			}
+
+			:root {
+				--bg: hsl(45, 6%, 12%);
+				--surface: hsl(45, 12%, 6%);
+				--border: hsla(45, 50%, 75%, 0.1);
+				--border-subtle: hsla(45, 50%, 75%, 0.025);
+				--text-primary: hsl(45, 12%, 95%);
+				--text-secondary: hsl(45, 12%, 65%);
+				--accent: hsl(45, 50%, 75%);
+				--accent-dim: hsla(45, 50%, 75%, 0.12);
+				--accent-bright: hsl(45, 65%, 83%);
+				--code-bg: var(--surface);
+				--code-border: var(--border);
+				--green: #4a9e6b;
+				--green-dim: rgba(74, 158, 107, 0.14);
+				--red: #c46060;
+				--red-dim: rgba(196, 96, 96, 0.12);
+				--yellow: hsl(45, 52%, 53%);
+				--yellow-dim: hsla(45, 52%, 53%, 0.12);
+				--nav-bg: var(--surface);
+				--nav-border: var(--border);
+				--radius-sm: 8px;
+				--radius-md: 12px;
+				--radius-lg: 16px;
+				--radius-pill: 100px;
+				--font-display: 'Syne', sans-serif;
+				--font-body: 'DM Sans', sans-serif;
+				--font-mono: 'JetBrains Mono', monospace;
+				--transition: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+				--transition-spring: 0.38s cubic-bezier(0.34, 1.4, 0.64, 1);
+			}
+
+			html {
+				scroll-behavior: smooth;
+			}
+
+			body {
+				background: var(--bg);
+				color: var(--text-primary);
+				font-family: var(--font-body);
+				font-size: 15px;
+				line-height: 1.65;
+				-webkit-font-smoothing: antialiased;
+				overflow-x: hidden;
+			}
+
+			/* ─── HERO ─── */
+			.hero {
+				padding: 72px 24px 56px;
+				background-color: color-mix(in hsl, var(--bg) 95%, black);
+				border-bottom: 1px solid color-mix(in hsl, var(--accent), var(--bg) 90%);
+			}
+			.hero-eyebrow {
+				font-family: var(--font-mono);
+				font-size: 10px;
+				font-weight: 400;
+				letter-spacing: 0.14em;
+				text-transform: uppercase;
+				color: var(--accent);
+				margin-bottom: 20px;
+				display: flex;
+				align-items: center;
+				gap: 10px;
+			}
+			.hero-eyebrow::before {
+				content: '';
+				display: block;
+				width: 24px;
+				height: 1px;
+				background: var(--accent);
+				opacity: 0.5;
+			}
+			.hero h1 {
+				font-family: var(--font-display);
+				font-size: clamp(32px, 8vw, 48px);
+				font-weight: 800;
+				line-height: 1.1;
+				letter-spacing: -0.02em;
+				color: var(--text-primary);
+				margin-bottom: 16px;
+			}
+			.hero-sub {
+				font-size: 14px;
+				font-weight: 300;
+				color: var(--text-secondary);
+				line-height: 1.6;
+				max-width: 480px;
+			}
+			.hero-scroll {
+				display: flex;
+				align-items: center;
+				gap: 10px;
+				margin-top: 40px;
+			}
+			.hero-scroll-text {
+				font-family: var(--font-mono);
+				font-size: 10px;
+				font-weight: 400;
+				letter-spacing: 0.12em;
+				text-transform: uppercase;
+				color: var(--text-secondary);
+			}
+			/* hide scroll block if lottie fails entirely */
+			.hero-scroll.hidden {
+				display: none;
+			}
+			/* ─── SECTIONS ─── */
+			.section {
+				padding: 64px 24px;
+				border-bottom: 1px solid color-mix(in hsl, var(--accent), var(--bg) 90%);
+			}
+			.section:last-of-type {
+				padding-bottom: 44px;
+				border-bottom: none;
+			}
+
+			.section-label {
+				font-family: var(--font-mono);
+				font-size: 9px;
+				font-weight: 400;
+				letter-spacing: 0.18em;
+				text-transform: uppercase;
+				color: var(--accent);
+				margin-bottom: 10px;
+			}
+
+			h2 {
+				font-family: var(--font-display);
+				font-size: clamp(24px, 6vw, 34px);
+				font-weight: 700;
+				letter-spacing: -0.02em;
+				line-height: 1.3;
+				color: var(--text-primary);
+				margin-bottom: 28px;
+			}
+
+			h3 {
+				font-family: var(--font-display);
+				font-size: 18px;
+				font-weight: 600;
+				letter-spacing: -0.01em;
+				line-height: 1.38;
+				color: var(--text-primary);
+				margin: 40px 0 14px;
+			}
+			h3:first-of-type {
+				margin-top: 8px;
+			}
+
+			h4 {
+				font-family: var(--font-body);
+				font-size: 12px;
+				font-weight: 500;
+				letter-spacing: 0.1em;
+				text-transform: uppercase;
+				color: var(--text-secondary);
+				margin: 28px 0 10px;
+			}
+
+			p {
+				color: var(--text-secondary);
+				font-weight: 300;
+				margin-bottom: 14px;
+				font-size: 14.5px;
+			}
+			p strong {
+				color: var(--text-primary);
+				font-weight: 500;
+			}
+			p:last-child {
+				margin-bottom: 0;
+			}
+
+			/* ─── GOAL CARDS ─── */
+			.goal-list {
+				display: flex;
+				flex-direction: column;
+				gap: 2px;
+				margin-bottom: 32px;
+			}
+			.goal-item {
+				display: flex;
+				align-items: flex-start;
+				gap: 14px;
+				padding: 16px 0;
+				border-bottom: 1px solid var(--border-subtle);
+			}
+			.goal-item:last-child {
+				border-bottom: none;
+			}
+			.goal-num {
+				font-family: var(--font-mono);
+				font-size: 10px;
+				font-weight: 500;
+				color: var(--accent);
+				opacity: 0.7;
+				min-width: 18px;
+				padding-top: 2px;
+			}
+			.goal-content strong {
+				display: block;
+				font-family: var(--font-body);
+				font-size: 14px;
+				font-weight: 500;
+				color: var(--text-primary);
+				margin-bottom: 3px;
+			}
+			.goal-content span {
+				font-size: 13px;
+				font-weight: 300;
+				color: var(--text-secondary);
+			}
+
+			/* ─── NOT LIST ─── */
+			.not-list {
+				background: var(--surface);
+				border: 1px solid var(--border);
+				border-radius: var(--radius-md);
+				padding: 18px 20px;
+				margin-top: 8px;
+			}
+			.not-list-title {
+				font-family: var(--font-mono);
+				font-size: 9px;
+				letter-spacing: 0.14em;
+				text-transform: uppercase;
+				color: var(--accent);
+				margin-bottom: 12px;
+			}
+			.not-item {
+				display: flex;
+				align-items: flex-start;
+				gap: 10px;
+				padding: 6px 0;
+				font-size: 13px;
+				font-weight: 300;
+				color: var(--text-secondary);
+				border-bottom: 1px solid var(--border-subtle);
+			}
+			.not-item:last-child {
+				border-bottom: none;
+			}
+			.not-item::before {
+				content: '—';
+				font-family: var(--font-mono);
+				font-size: 11px;
+				color: var(--text-secondary);
+				flex-shrink: 0;
+				margin-top: 1px;
+			}
+
+			/* ─── TABLES ─── */
+			.table-wrap {
+				margin: 16px 0;
+				border: 1px solid var(--border) !important;
+				border-radius: var(--radius-md);
+				overflow: hidden;
+				overflow-x: auto;
+				-webkit-overflow-scrolling: touch;
+				background: var(--surface);
+			}
+			table {
+				width: 100%;
+				border-collapse: collapse;
+				font-size: 13px;
+				min-width: 400px;
+			}
+			thead tr {
+				background: transparent;
+				border-bottom: 1px solid var(--border);
+			}
+			thead th {
+				font-family: var(--font-mono);
+				font-size: 9px;
+				font-weight: 500;
+				letter-spacing: 0.12em;
+				text-transform: uppercase;
+				color: var(--accent);
+				padding: 11px 14px;
+				text-align: left;
+				white-space: nowrap;
+			}
+			tbody tr {
+				border-bottom: 1px solid var(--border-subtle);
+			}
+			tbody tr:last-child {
+				border-bottom: none;
+			}
+			tbody td {
+				padding: 12px 14px;
+				color: var(--text-secondary);
+				font-weight: 300;
+				vertical-align: top;
+				line-height: 1.5;
+			}
+			tbody td:first-child {
+				color: var(--text-primary);
+				font-weight: 400;
+				white-space: nowrap;
+			}
+			.badge {
+				display: inline-flex;
+				align-items: center;
+				gap: 5px;
+				font-family: var(--font-mono);
+				font-size: 10px;
+				font-weight: 400;
+				padding: 3px 8px;
+				border-radius: var(--radius-pill);
+			}
+			.badge-green {
+				background: var(--green-dim);
+				color: var(--green);
+			}
+			.badge-red {
+				background: var(--red-dim);
+				color: var(--red);
+			}
+			.badge-yellow {
+				background: var(--yellow-dim);
+				color: var(--yellow);
+			}
+			.badge-neutral {
+				background: var(--green-dim);
+				color: var(--green);
+			}
+
+			/* ─── CODE BLOCKS ─── */
+			.code-block {
+				margin: 16px 0;
+				border: 1px solid var(--border);
+				border-radius: var(--radius-md);
+				overflow: hidden;
+				background: var(--surface);
+			}
+			.code-header {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				padding: 10px 14px;
+				background: var(--code-bg);
+				border-bottom: 1px solid var(--border);
+			}
+			.code-lang {
+				font-family: var(--font-mono);
+				font-size: 9px;
+				font-weight: 500;
+				letter-spacing: 0.12em;
+				text-transform: uppercase;
+				color: var(--accent);
+			}
+			.code-copy {
+				font-family: var(--font-mono);
+				font-size: 9px;
+				font-weight: 400;
+				letter-spacing: 0.08em;
+				color: var(--text-secondary);
+				background: var(--surface);
+				border: 1px solid var(--border);
+				cursor: pointer;
+				padding: 5px 10px;
+				border-radius: 6px;
+				transition:
+					color var(--transition),
+					background var(--transition),
+					border-color var(--transition);
+				text-transform: uppercase;
+				line-height: 1;
+			}
+			.code-copy:hover {
+				color: var(--accent);
+				background: var(--accent-dim);
+				border-color: rgba(212, 201, 168, 0.25);
+			}
+			.code-copy.copied {
+				color: var(--green);
+				border-color: rgba(74, 158, 107, 0.3);
+				background: var(--green-dim);
+			}
+			pre {
+				background: var(--code-bg);
+				padding: 18px 16px;
+				overflow-x: auto;
+				-webkit-overflow-scrolling: touch;
+			}
+			code {
+				font-family: var(--font-mono);
+				font-size: 12px;
+				font-weight: 300;
+				line-height: 1.75;
+				color: var(--text-primary);
+				white-space: pre;
+			}
+			.c {
+				color: var(--text-secondary);
+			} /* comments */
+			.k {
+				color: var(--accent);
+			} /* keys/labels */
+			.v {
+				color: #a8c4a8;
+			} /* values */
+
+			/* inline code */
+			p code,
+			li code,
+			td code {
+				font-family: var(--font-mono);
+				font-size: 11.5px;
+				background: var(--surface);
+				border: 1px solid var(--border);
+				padding: 1px 5px;
+				border-radius: 4px;
+				color: var(--accent);
+			}
+
+			/* ─── ARCHITECTURE DIAGRAM ─── */
+			.arch-block {
+				background: var(--surface);
+				border: 1px solid var(--border);
+				border-radius: var(--radius-md);
+				padding: 20px 18px;
+				margin: 16px 0;
+				overflow-x: auto;
+				-webkit-overflow-scrolling: touch;
+			}
+			.arch-block pre {
+				background: none;
+				padding: 0;
+			}
+			.arch-block code {
+				font-size: 11.5px;
+				color: var(--text-secondary);
+			}
+
+			/* ─── INFO CARDS ─── */
+			.card-grid {
+				display: flex;
+				flex-direction: column;
+				gap: 8px;
+				margin: 16px 0;
+			}
+			.card {
+				background: var(--surface);
+				border: 1px solid var(--border);
+				border-radius: var(--radius-md);
+				padding: 16px 18px;
+			}
+			.card-title {
+				font-family: var(--font-body);
+				font-size: 13px;
+				font-weight: 500;
+				color: var(--text-primary);
+				margin-bottom: 6px;
+			}
+			.card-body {
+				font-size: 13px;
+				font-weight: 300;
+				color: var(--text-secondary);
+				line-height: 1.55;
+			}
+			.card-label {
+				font-family: var(--font-mono);
+				font-size: 9px;
+				font-weight: 400;
+				letter-spacing: 0.12em;
+				text-transform: uppercase;
+				margin-bottom: 8px;
+			}
+			.card-label.critical {
+				color: var(--red);
+			}
+			.card-label.high {
+				color: var(--yellow);
+			}
+			.card-label.medium {
+				color: var(--accent);
+			}
+
+			/* ─── INLINE LISTS ─── */
+			ul,
+			ol {
+				padding-left: 0;
+				margin: 12px 0;
+				list-style: none;
+			}
+			ul li,
+			ol li {
+				display: flex;
+				align-items: flex-start;
+				gap: 10px;
+				padding: 7px 0;
+				font-size: 13.5px;
+				font-weight: 300;
+				color: var(--text-secondary);
+				border-bottom: 1px solid var(--border-subtle);
+			}
+			ul li:last-child,
+			ol li:last-child {
+				border-bottom: none;
+			}
+			ul li::before {
+				content: '·';
+				font-family: var(--font-mono);
+				font-size: 16px;
+				color: var(--accent);
+				opacity: 0.5;
+				flex-shrink: 0;
+				line-height: 1.4;
+			}
+			ol {
+				counter-reset: li;
+			}
+			ol li {
+				counter-increment: li;
+			}
+			ol li::before {
+				content: counter(li, decimal-leading-zero);
+				font-family: var(--font-mono);
+				font-size: 10px;
+				color: var(--accent);
+				opacity: 0.6;
+				flex-shrink: 0;
+				min-width: 20px;
+				margin-top: 3px;
+			}
+			li strong {
+				color: var(--text-primary);
+				font-weight: 500;
+			}
+
+			/* ─── DIVIDER ─── */
+			.divider {
+				border: none;
+				border-top: 1px solid var(--border-subtle);
+				margin: 40px 0;
+			}
+
+			/* ─── SPEC ROW (2-col layout) ─── */
+			.spec-row {
+				display: flex;
+				justify-content: space-between;
+				align-items: baseline;
+				padding: 11px 0;
+				border-bottom: 1px solid var(--border-subtle);
+				gap: 16px;
+			}
+			.spec-row:last-child {
+				border-bottom: none;
+			}
+			.spec-key {
+				font-size: 13px;
+				font-weight: 400;
+				color: var(--text-secondary);
+				flex-shrink: 0;
+			}
+			.spec-val {
+				font-family: var(--font-mono);
+				font-size: 12px;
+				font-weight: 400;
+				color: var(--text-primary);
+				text-align: right;
+			}
+
+			/* ─── UPGRADE STEPS ─── */
+			.upgrade-steps {
+				display: flex;
+				flex-direction: column;
+				gap: 0;
+				border: 1px solid var(--border);
+				background-color: var(--surface);
+				border-radius: var(--radius-md);
+				overflow: hidden;
+				margin: 16px 0;
+			}
+			.upgrade-step {
+				display: flex;
+				align-items: center;
+				gap: 14px;
+				padding: 14px 16px;
+				border-bottom: 1px solid var(--border-subtle);
+			}
+			.upgrade-step:last-child {
+				border-bottom: none;
+			}
+			.upgrade-step-icon {
+				font-family: var(--font-mono);
+				font-size: 10px;
+				color: var(--accent);
+
+				flex-shrink: 0;
+				width: 28px;
+				text-align: center;
+			}
+			.upgrade-step-content {
+				flex: 1;
+			}
+			.upgrade-step-title {
+				font-size: 13px;
+				font-weight: 500;
+				color: var(--text-primary);
+				margin-bottom: 2px;
+			}
+			.upgrade-step-detail {
+				font-family: var(--font-mono);
+				font-size: 11px;
+				color: var(--text-secondary);
+			}
+
+			/* ─── USAGE SCENARIO CHIPS ─── */
+			.scenario-list {
+				display: flex;
+				flex-direction: column;
+				gap: 2px;
+				margin: 16px 0;
+			}
+			.scenario {
+				display: flex;
+				align-items: center;
+				gap: 12px;
+				padding: 13px 0;
+				border-bottom: 1px solid var(--border-subtle);
+			}
+			.scenario:last-child {
+				border-bottom: none;
+			}
+			.scenario-situation {
+				flex: 1;
+				font-size: 13px;
+				font-weight: 400;
+				color: var(--text-primary);
+			}
+			.scenario-action {
+				font-family: var(--font-mono);
+				font-size: 11px;
+				color: var(--accent);
+				text-align: right;
+				flex-shrink: 0;
+				max-width: 160px;
+			}
+
+			/* ─── SIGNAL CHAIN ─── */
+			.signal-chain {
+				display: flex;
+				flex-direction: column;
+				align-items: flex-start;
+				gap: 0;
+				margin: 16px 0;
+				padding: 20px;
+				background: var(--surface);
+				border: 1px solid var(--border);
+				border-radius: var(--radius-md);
+			}
+			.signal-node {
+				display: flex;
+				align-items: center;
+				gap: 12px;
+				padding: 8px 0;
+			}
+			.signal-dot {
+				width: 7px;
+				height: 7px;
+				border-radius: 50%;
+				background: var(--accent);
+				flex-shrink: 0;
+			}
+			.signal-label {
+				font-size: 13px;
+				font-weight: 400;
+				color: var(--text-primary);
+			}
+			.signal-sub {
+				font-family: var(--font-mono);
+				font-size: 10px;
+				color: var(--accent);
+				opacity: 0.7;
+			}
+			.signal-arrow {
+				padding: 1px 0 1px 3px;
+				font-family: var(--font-mono);
+				font-size: 11px;
+				color: var(--text-secondary);
+			}
+
+			/* ─── COST CALLOUT ─── */
+			.cost-hero {
+				background: var(--surface);
+				border: 1px solid var(--border);
+				border-radius: var(--radius-lg);
+				padding: 24px 20px;
+				margin: 20px 0;
+				display: flex;
+				flex-direction: column;
+				gap: 4px;
+			}
+			.cost-hero-label {
+				font-family: var(--font-mono);
+				font-size: 9px;
+				font-weight: 400;
+				letter-spacing: 0.14em;
+				text-transform: uppercase;
+				color: var(--accent);
+			}
+			.cost-hero-amount {
+				font-family: var(--font-display);
+				font-size: 42px;
+				font-weight: 700;
+				letter-spacing: -0.03em;
+				color: var(--text-primary);
+				line-height: 1;
+			}
+			.cost-hero-sub {
+				font-size: 13px;
+				font-weight: 300;
+				color: var(--text-secondary);
+				margin-top: 6px;
+			}
+
+			/* ─── FOOTER ─── */
+			.footer {
+        position: relative;
+        z-index: 1000;
+				border-top: 1px solid color-mix(in hsl, var(--accent), var(--bg) 90%);
+        background-color: color-mix(in hsl, var(--bg) 95%, black);
+				padding: 28px 24px 58px 24px;
+				text-align: center;
+			}
+			.footer p {
+				font-family: var(--font-mono);
+				font-size: 10px;
+				color: var(--text-secondary);
+				letter-spacing: 0.08em;
+			}
+
+			/* ═══════════════════════════════════════
+			   BOTTOM PILL NAV
+			═══════════════════════════════════════ */
+			#nav-pill {
+				position: fixed;
+				bottom: 24px;
+				left: 50%;
+				transform: translateX(-50%);
+				z-index: 999;
+				width: calc(100% - 32px);
+				max-width: 480px;
+			}
+
+			/* ─── SECTIONS ─── */
+			.nav-closed {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+        margin: 0 auto;
+        max-width: 95%;
+				background: var(--nav-bg);
+				border: 1px solid var(--nav-border);
+				border-radius: var(--radius-pill);
+				padding: 12px 16px 12px 20px;
+				cursor: pointer;
+				transition:
+					border-color var(--transition),
+					background var(--transition);
+				box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5);
+			}
+			.nav-closed:hover {
+				border-color: color-mix(in hsl, var(--accent) 25%, transparent);
+			}
+			.nav-section-name {
+				font-family: var(--font-body);
+				font-size: 13px;
+				font-weight: 400;
+				color: var(--text-primary);
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				flex: 1;
+				min-width: 0;
+				transition: opacity var(--transition);
+			}
+			.nav-menu-btn {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				width: 32px;
+				height: 32px;
+				border-radius: 50%;
+				background: var(--surface);
+				border: 1px solid var(--border);
+				flex-shrink: 0;
+				margin-left: 12px;
+				transition:
+					background var(--transition),
+					border-color var(--transition);
+			}
+			.nav-menu-btn svg {
+				transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+			}
+
+			/* OPEN STATE */
+			.nav-open-panel {
+				background-color: color-mix(in hsl, var(--nav-bg) 80%, transparent);
+        backdrop-filter: blur(12px);
+				border: .5px solid color-mix(in hsl, var(--accent) 20%, transparent);
+				border-radius: var(--radius-lg);
+				overflow: hidden;
+
+				/* closed state */
+				max-height: 0;
+				opacity: 0;
+				pointer-events: none;
+				transform: translateY(12px) scale(0.95);
+				transform-origin: bottom center;
+				transition:
+					max-height 0.36s cubic-bezier(0.4, 0, 0.2, 1),
+					opacity 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+					transform 0.32s cubic-bezier(0.34, 1.2, 0.64, 1);
+			}
+			.nav-open-panel.is-open {
+				max-height: 420px;
+				opacity: 1;
+        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5);
+				pointer-events: all;
+				transform: translateY(0) scale(1);
+				transition:
+					max-height 0.36s cubic-bezier(0.4, 0, 0.2, 1),
+					opacity 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+					transform 0.32s cubic-bezier(0.34, 1.2, 0.64, 1);
+			}
+
+			.nav-panel-header {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				padding: 14px 18px 12px;
+				border-bottom: 1px solid var(--border-subtle);
+			}
+			.nav-panel-title {
+				font-family: var(--font-mono);
+				font-size: 9px;
+				font-weight: 400;
+				letter-spacing: 0.16em;
+				text-transform: uppercase;
+				color: var(--text-primary);
+			}
+			.nav-close-btn {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				width: 26px;
+				height: 26px;
+				border-radius: 50%;
+				background: var(--surface);
+				border: 1px solid var(--border);
+				cursor: pointer;
+				transition: background var(--transition);
+			}
+			.nav-close-btn:hover {
+				background: var(--surface);
+			}
+
+			.nav-toc-list {
+				padding: 8px 0;
+				overflow-y: auto;
+				max-height: 420px;
+			}
+			.nav-toc-item {
+				display: flex;
+				align-items: center;
+				gap: 12px;
+				padding: 12px 18px;
+				cursor: pointer;
+				transition: background var(--transition);
+				border-bottom: 1px solid var(--border-subtle);
+			}
+			.nav-toc-item:last-child {
+				border-bottom: none;
+			}
+			.nav-toc-item:hover {
+				background: rgba(255, 255, 255, 0.03);
+			}
+			.nav-toc-item.active {
+				background: var(--accent-dim);
+			}
+			.nav-toc-num {
+				font-family: var(--font-mono);
+				font-size: 10px;
+				color: var(--text-secondary);
+				min-width: 20px;
+			}
+			.nav-toc-item.active .nav-toc-num {
+				color: var(--accent);
+			}
+			.nav-toc-label {
+				font-size: 14px;
+				font-weight: 400;
+				color: var(--text-secondary);
+				flex: 1;
+			}
+			.nav-toc-item.active .nav-toc-label {
+				color: var(--text-primary);
+				font-weight: 500;
+			}
+			.nav-toc-arrow {
+				font-family: var(--font-mono);
+				font-size: 11px;
+				color: var(--text-secondary);
+				transition:
+					transform var(--transition),
+					color var(--transition);
+			}
+			.nav-toc-item:hover .nav-toc-arrow,
+			.nav-toc-item.active .nav-toc-arrow {
+				transform: translateX(3px);
+				color: var(--accent);
+			}
+
+			/* gap between panel and closed bar */
+			.nav-spacer {
+				height: 8px;
+			}
+
+			/* ─── ANIMATIONS ─── */
+			@keyframes fadeUp {
+				from {
+					opacity: 0;
+					transform: translateY(16px);
+				}
+				to {
+					opacity: 1;
+					transform: translateY(0);
+				}
+			}
+			.section {
+				animation: fadeUp 0.5s ease both;
+			}
+
+			@keyframes scrollDot {
+				0% {
+					cy: 8;
+					opacity: 1;
+				}
+				60% {
+					cy: 18;
+					opacity: 0.3;
+				}
+				100% {
+					cy: 8;
+					opacity: 1;
+				}
+			}
+			.scroll-dot {
+				animation: scrollDot 1.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+			}
+
+			/* ─── SCROLLBAR ─── */
+      
+      ::-webkit-scrollbar {
+        width: 0px;
+				height: 0px;
+			}
+			::-webkit-scrollbar-track {
+        background: transparent;
+			}
+			::-webkit-scrollbar-thumb {
+        background: transparent;
+				border-radius: 4px;
+			}
+
+			section ::-webkit-scrollbar {
+				width: 4px;
+				height: 4px;
+			}
+			section ::-webkit-scrollbar-track {
+				background: transparent;
+			}
+			section ::-webkit-scrollbar-thumb {
+				background: color-mix(in hsl, var(--accent), var(--surface) 90%);
+				border-radius: 4px;
+			}
+
+			/* ─── MISC ─── */
+			.accent-text {
+				color: var(--accent);
+			}
+			.mono {
+				font-family: var(--font-mono);
+			}
+			.tag-inline {
+				font-family: var(--font-mono);
+				font-size: 10px;
+				background: var(--accent-dim);
+				color: var(--accent);
+				padding: 2px 7px;
+				border-radius: var(--radius-pill);
+			}
+		</style>
+	</head>
+	<body>
+		<!-- ═══════════════════════════════════════
+  HERO
+═══════════════════════════════════════ -->
+		<header class="hero">
+			<div class="hero-eyebrow">Homelab Project</div>
+			<h1>Master<br />Reference</h1>
+			<p class="hero-sub">
+				Complete planning guide covering VPN stack, home server hardware, media
+				server, remote access, and local AI infrastructure.
+			</p>
+			<div class="hero-scroll">
+				<svg width="20" height="28" viewBox="0 0 20 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
+			      <rect x="1" y="1" width="18" height="26" rx="9" stroke="#444440" stroke-width="1.2"/>
+			      <circle class="scroll-dot" cx="10" cy="8" r="2.5" fill="#d4c9a8"/>
+				</svg>
+				<span class="hero-scroll-text">Scroll to explore</span>
+			</div>
+		</header>
+
+		<!-- ═══════════════════════════════════════
+  1 · OVERALL GOALS
+═══════════════════════════════════════ -->
+		<section class="section" id="overall-goals">
+			<div class="section-label">01</div>
+			<h2>Overall Goals</h2>
+
+			<div class="goal-list">
+				<div class="goal-item">
+					<span class="goal-num">01:</span>
+					<div class="goal-content">
+						<strong>Privacy VPN</strong>
+						<span
+							>Hide internet traffic and IP from ISP, websites, and data
+							collectors when browsing, banking, or doing anything sensitive
+							online.</span
+						>
+					</div>
+				</div>
+				<div class="goal-item">
+					<span class="goal-num">02:</span>
+					<div class="goal-content">
+						<strong>Remote Home Access</strong>
+						<span
+							>Access home network (Plex, NAS) from iPhone and iPad while
+							traveling.</span
+						>
+					</div>
+				</div>
+				<div class="goal-item">
+					<span class="goal-num">03:</span>
+					<div class="goal-content">
+						<strong>Media Server</strong>
+						<span
+							>Self-hosted Plex library accessible locally on Apple TV 4K and
+							remotely on iPhone and iPad.</span
+						>
+					</div>
+				</div>
+				<div class="goal-item">
+					<span class="goal-num">04:</span>
+					<div class="goal-content">
+						<strong>NAS Storage</strong>
+						<span
+							>Personal and work file storage always connected to the home
+							network.</span
+						>
+					</div>
+				</div>
+				<div class="goal-item">
+					<span class="goal-num">05:</span>
+					<div class="goal-content">
+						<strong>Future: Local LLM</strong>
+						<span
+							>Run a private AI assistant on home server hardware, fully
+							self-contained.</span
+						>
+					</div>
+				</div>
+			</div>
+
+			<div class="not-list">
+				<div class="not-list-title">Out of Scope</div>
+				<div class="not-item">
+					Not a commercial VPN replacement for nation-state anonymity
+				</div>
+				<div class="not-item">Not a public-facing server</div>
+				<div class="not-item">Not a complex always-on mesh network</div>
+			</div>
+		</section>
+
+		<!-- ═══════════════════════════════════════
+  2 · KEY DECISIONS
+═══════════════════════════════════════ -->
+		<section class="section" id="key-decisions">
+			<div class="section-label">02</div>
+			<h2>Key Decisions</h2>
+
+			<div class="table-wrap">
+				<table>
+					<thead>
+						<tr>
+							<th>Decision</th>
+							<th>Choice</th>
+							<th>Reason</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>VPN Protocol</td>
+							<td>WireGuard</td>
+							<td>Fastest, modern, kernel-native, minimal attack surface</td>
+						</tr>
+						<tr>
+							<td>Privacy Exit Node</td>
+							<td>Hetzner CX22</td>
+							<td>
+								Best price/performance, EU jurisdiction, 20TB traffic included
+							</td>
+						</tr>
+						<tr>
+							<td>Home VPN</td>
+							<td>WireGuard on home server</td>
+							<td>Self-hosted, no third party in the chain</td>
+						</tr>
+						<tr>
+							<td>Dynamic DNS</td>
+							<td>DuckDNS</td>
+							<td>Free, reliable, simple cron-based updater</td>
+						</tr>
+						<tr>
+							<td>NAS OS</td>
+							<td>Unraid or TrueNAS Scale</td>
+							<td>Full control, no Synology/QNAP limitations</td>
+						</tr>
+						<tr>
+							<td>CPU</td>
+							<td>Intel N100</td>
+							<td>Built-in QuickSync, ~6W idle, soldered to board</td>
+						</tr>
+						<tr>
+							<td>Case</td>
+							<td>Jonsbo N2</td>
+							<td>5 hot-swap bays, compact cube, 11L volume</td>
+						</tr>
+						<tr>
+							<td>Starting Drives</td>
+							<td>2× IronWolf 8TB</td>
+							<td>16TB raw, 3 bays open for expansion</td>
+						</tr>
+						<tr>
+							<td>Drive Config</td>
+							<td>JBOD (no RAID)</td>
+							<td>Media is re-downloadable — maximize usable storage</td>
+						</tr>
+						<tr>
+							<td>PSU</td>
+							<td>Corsair SF450 SFX</td>
+							<td>SFX form factor required for N2 case</td>
+						</tr>
+						<tr>
+							<td>Media Server</td>
+							<td>Plex + Jellyfin</td>
+							<td>Plex for daily use, Jellyfin for offline downloads</td>
+						</tr>
+						<tr>
+							<td>Remote Access</td>
+							<td>WireGuard Config #2</td>
+							<td>Direct tunnel to home, no third-party relay</td>
+						</tr>
+						<tr>
+							<td>Apple TV</td>
+							<td>Always at home</td>
+							<td>Eliminates all remote Apple TV VPN complexity</td>
+						</tr>
+						<tr>
+							<td>Offline Viewing</td>
+							<td>Jellyfin</td>
+							<td>Plex offline sync requires paid Plex Pass</td>
+						</tr>
+						<tr>
+							<td>VPN Configs</td>
+							<td>Two separate configs</td>
+							<td>Each does one thing perfectly, no latency penalty</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</section>
+
+		<!-- ═══════════════════════════════════════
+  3 · VPN STACK
+═══════════════════════════════════════ -->
+		<section class="section" id="vpn-stack">
+			<div class="section-label">03</div>
+			<h2>VPN Stack</h2>
+
+			<h3>Architecture</h3>
+			<div class="arch-block">
+				<pre><code>Internet / Websites
+        ↑
+Hetzner CX22 VPS  ·  Frankfurt or Helsinki
+├── WireGuard Config #1 — privacy exit node
+└── Unbound DNS — local recursive resolver
+
+Home Server  ·  NAS / Plex box
+├── WireGuard Config #2 — remote home access
+└── DuckDNS client — updates every 5 min
+
+Your Devices  ·  iPhone, iPad
+├── Config #1 → Hetzner  (on-demand privacy)
+└── Config #2 → Home     (remote access)</code></pre>
+			</div>
+
+			<h3>Config #1 — Privacy VPN</h3>
+			<p>
+				<strong>Purpose:</strong> Hide all internet traffic from ISP. Websites
+				see Hetzner IP, not your home IP.
+			</p>
+			<p>
+				<strong>Use when:</strong> Banking, private browsing, any session where
+				you want IP anonymity.
+			</p>
+
+			<div class="code-block">
+				<div class="code-header">
+					<span class="code-lang">ini — Device Config</span>
+					<button class="code-copy" onclick="copyCode(this)">Copy</button>
+				</div>
+				<pre><code>[Interface]
+PrivateKey = &lt;DEVICE_PRIVATE_KEY&gt;
+Address    = 10.0.0.2/24
+DNS        = 10.0.0.1  <span class="c"># Unbound on VPS</span>
+
+[Peer]
+PublicKey        = &lt;VPS_PUBLIC_KEY&gt;
+Endpoint         = &lt;HETZNER_IP&gt;:51820
+AllowedIPs       = 0.0.0.0/0  <span class="c"># All traffic → VPS</span>
+PersistentKeepalive = 25</code></pre>
+			</div>
+
+			<div class="code-block">
+				<div class="code-header">
+					<span class="code-lang">ini — VPS Server Config</span>
+					<button class="code-copy" onclick="copyCode(this)">Copy</button>
+				</div>
+				<pre><code>[Interface]
+Address    = 10.0.0.1/24
+PrivateKey = &lt;VPS_PRIVATE_KEY&gt;
+ListenPort = 51820
+PostUp     = iptables -A FORWARD -i wg0 -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+PostDown   = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
+
+[Peer]
+PublicKey  = &lt;DEVICE_PUBLIC_KEY&gt;
+AllowedIPs = 10.0.0.2/32</code></pre>
+			</div>
+
+			<h3>Config #2 — Remote Home Access</h3>
+			<p>
+				<strong>Purpose:</strong> Tunnel into your home network from anywhere.
+				Access Plex and NAS as if sitting at home.
+			</p>
+			<p>
+				<strong>Use when:</strong> Traveling and want to stream Plex or access
+				NAS files.
+			</p>
+
+			<div class="code-block">
+				<div class="code-header">
+					<span class="code-lang">ini — Device Config</span>
+					<button class="code-copy" onclick="copyCode(this)">Copy</button>
+				</div>
+				<pre><code>[Interface]
+PrivateKey = &lt;DEVICE_PRIVATE_KEY&gt;
+Address    = 10.1.0.2/24
+DNS        = 10.1.0.1
+
+[Peer]
+PublicKey        = &lt;HOME_SERVER_PUBLIC_KEY&gt;
+Endpoint         = yourname.duckdns.org:51821
+AllowedIPs       = 10.1.0.0/24, 192.168.1.0/24  <span class="c"># Home only</span>
+PersistentKeepalive = 25</code></pre>
+			</div>
+
+			<div class="code-block">
+				<div class="code-header">
+					<span class="code-lang">ini — Home Server Config</span>
+					<button class="code-copy" onclick="copyCode(this)">Copy</button>
+				</div>
+				<pre><code>[Interface]
+Address    = 10.1.0.1/24
+PrivateKey = &lt;HOME_PRIVATE_KEY&gt;
+ListenPort = 51821
+
+[Peer]
+PublicKey  = &lt;DEVICE_PUBLIC_KEY&gt;
+AllowedIPs = 10.1.0.2/32</code></pre>
+			</div>
+
+			<p>
+				Router: Forward <code>UDP 51821</code> to your home server's local IP.
+			</p>
+
+			<h3>VPS Setup — Hetzner Debian 12</h3>
+			<div class="code-block">
+				<div class="code-header">
+					<span class="code-lang">bash — VPS Setup</span>
+					<button class="code-copy" onclick="copyCode(this)">Copy</button>
+				</div>
+				<pre><code><span class="c"># Install WireGuard and Unbound</span>
+apt update && apt install wireguard unbound -y
+
+<span class="c"># Generate server keys</span>
+wg genkey | tee /etc/wireguard/privatekey | wg pubkey > /etc/wireguard/publickey
+
+<span class="c"># Enable IP forwarding</span>
+echo "net.ipv4.ip_forward=1" >> /etc/sysctl.conf && sysctl -p
+
+<span class="c"># Firewall — strict allow list</span>
+ufw default deny incoming
+ufw default allow outgoing
+ufw allow 2222/tcp   <span class="c"># SSH non-standard port</span>
+ufw allow 51820/udp  <span class="c"># WireGuard Config #1</span>
+ufw enable
+
+<span class="c"># Start WireGuard</span>
+systemctl enable wg-quick@wg0
+systemctl start wg-quick@wg0</code></pre>
+			</div>
+
+			<h3>Home Server Setup</h3>
+			<div class="code-block">
+				<div class="code-header">
+					<span class="code-lang">bash — Home Server Setup</span>
+					<button class="code-copy" onclick="copyCode(this)">Copy</button>
+				</div>
+				<pre><code>apt install wireguard -y
+
+wg genkey | tee /etc/wireguard/privatekey | wg pubkey > /etc/wireguard/publickey
+
+echo "net.ipv4.ip_forward=1" >> /etc/sysctl.conf && sysctl -p
+
+ufw default deny incoming
+ufw default allow outgoing
+ufw allow 2223/tcp   <span class="c"># SSH (different from VPS)</span>
+ufw allow 51821/udp  <span class="c"># WireGuard Config #2</span>
+ufw enable
+
+systemctl enable wg-quick@wg0
+systemctl start wg-quick@wg0
+
+<span class="c"># DuckDNS — runs every 5 min</span>
+echo "*/5 * * * * root curl -s 'https://www.duckdns.org/update?domains=yourname&token=YOUR_TOKEN&ip=' > /dev/null" >> /etc/cron.d/duckdns</code></pre>
+			</div>
+
+			<h3>Security Hardening</h3>
+
+			<div class="card-grid">
+				<div class="card">
+					<div class="card-label critical">Critical</div>
+					<div class="card-title">Key-only SSH Authentication</div>
+					<div class="card-body">
+						Disable password auth entirely. No brute force possible without your
+						private key.
+					</div>
+				</div>
+				<div class="card">
+					<div class="card-label critical">Critical</div>
+					<div class="card-title">Strict UFW Firewall</div>
+					<div class="card-body">
+						Default deny all incoming. Allow only SSH (non-standard port) and
+						WireGuard UDP port.
+					</div>
+				</div>
+				<div class="card">
+					<div class="card-label critical">Critical</div>
+					<div class="card-title">Non-Standard SSH Port</div>
+					<div class="card-body">
+						Move SSH off port 22. Eliminates 99% of automated scanner traffic
+						immediately.
+					</div>
+				</div>
+				<div class="card">
+					<div class="card-label high">High</div>
+					<div class="card-title">Fail2Ban</div>
+					<div class="card-body">
+						Automatically bans IPs that repeatedly fail authentication. Handles
+						constant background noise silently.
+					</div>
+				</div>
+				<div class="card">
+					<div class="card-label high">High</div>
+					<div class="card-title">Unattended Security Updates</div>
+					<div class="card-body">
+						Security patches apply automatically. No manual SSH required for
+						routine CVEs.
+					</div>
+				</div>
+				<div class="card">
+					<div class="card-label high">High</div>
+					<div class="card-title">Per-Device WireGuard Keys</div>
+					<div class="card-body">
+						One key pair per device. Compromised device = remove one peer.
+						Everything else stays secure.
+					</div>
+				</div>
+				<div class="card">
+					<div class="card-label medium">Medium</div>
+					<div class="card-title">Disable IPv6</div>
+					<div class="card-body">
+						Eliminates a common leak vector. You don't need it — remove the
+						attack surface.
+					</div>
+				</div>
+				<div class="card">
+					<div class="card-label medium">Medium</div>
+					<div class="card-title">Rotate Keys Every 6–12 Months</div>
+					<div class="card-body">
+						Limits exposure window if a key is ever silently compromised.
+					</div>
+				</div>
+			</div>
+
+			<h3>Protection Coverage</h3>
+			<div class="table-wrap">
+				<table>
+					<thead>
+						<tr>
+							<th>Threat</th>
+							<th>Status</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>ISP seeing browsing content</td>
+							<td><span class="badge badge-green">Protected</span></td>
+						</tr>
+						<tr>
+							<td>ISP selling browsing data</td>
+							<td><span class="badge badge-green">Protected</span></td>
+						</tr>
+						<tr>
+							<td>Websites seeing home IP</td>
+							<td><span class="badge badge-green">Protected</span></td>
+						</tr>
+						<tr>
+							<td>Banking session interception</td>
+							<td><span class="badge badge-green">Protected</span></td>
+						</tr>
+						<tr>
+							<td>Public WiFi snooping</td>
+							<td><span class="badge badge-green">Protected</span></td>
+						</tr>
+						<tr>
+							<td>ISP identifying VPN use</td>
+							<td><span class="badge badge-red">Visible</span></td>
+						</tr>
+						<tr>
+							<td>Hetzner seeing traffic</td>
+							<td><span class="badge badge-yellow">Theoretical</span></td>
+						</tr>
+						<tr>
+							<td>Nation-state adversary</td>
+							<td><span class="badge badge-red">Use Tor</span></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<h3>Hetzner CX22 Specs</h3>
+			<div class="table-wrap">
+				<table>
+					<thead>
+						<tr>
+							<th>Spec</th>
+							<th>Detail</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>vCPUs</td>
+							<td>2</td>
+						</tr>
+						<tr>
+							<td>RAM</td>
+							<td>4GB</td>
+						</tr>
+						<tr>
+							<td>Storage</td>
+							<td>40GB SSD</td>
+						</tr>
+						<tr>
+							<td>Monthly Traffic</td>
+							<td>20TB included</td>
+						</tr>
+						<tr>
+							<td>Overage</td>
+							<td>€1 / TB</td>
+						</tr>
+						<tr>
+							<td>Network</td>
+							<td>1 Gbps</td>
+						</tr>
+						<tr>
+							<td>Cost</td>
+							<td>~€4 / month</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<h3>Day-to-Day Usage</h3>
+			<div class="scenario-list">
+				<div class="scenario">
+					<span class="scenario-situation"
+						>Home, watching Plex on Apple TV</span
+					>
+					<span class="scenario-action">Nothing — just works</span>
+				</div>
+				<div class="scenario">
+					<span class="scenario-situation"
+						>Home, banking or private browsing</span
+					>
+					<span class="scenario-action">Toggle Config #1</span>
+				</div>
+				<div class="scenario">
+					<span class="scenario-situation">Traveling, want Plex</span>
+					<span class="scenario-action">Toggle Config #2</span>
+				</div>
+				<div class="scenario">
+					<span class="scenario-situation">Traveling, private browsing</span>
+					<span class="scenario-action">Toggle Config #1</span>
+				</div>
+				<div class="scenario">
+					<span class="scenario-situation">Done with VPN</span>
+					<span class="scenario-action">Toggle off</span>
+				</div>
+			</div>
+
+			<p style="margin-top: 16px">
+				<strong>iOS Automation:</strong> Use iOS Shortcuts to auto-connect
+				Config #2 when leaving home WiFi and auto-disconnect on return. Set
+				once, never think about it again.
+			</p>
+		</section>
+
+		<!-- ═══════════════════════════════════════
+  4 · HOME SERVER / NAS BUILD
+═══════════════════════════════════════ -->
+		<section class="section" id="nas-build">
+			<div class="section-label">04</div>
+			<h2>Home Server / NAS Build</h2>
+
+			<h3>Baseline Parts List</h3>
+			<div class="table-wrap">
+				<table>
+					<thead>
+						<tr>
+							<th>Component</th>
+							<th>Part</th>
+							<th>Cost</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Case</td>
+							<td>Jonsbo N2 Black</td>
+							<td>~$145</td>
+						</tr>
+						<tr>
+							<td>Board / CPU</td>
+							<td>ASRock N100DC-ITX</td>
+							<td>~$170</td>
+						</tr>
+						<tr>
+							<td>RAM</td>
+							<td>16GB DDR4 SODIMM</td>
+							<td>~$30</td>
+						</tr>
+						<tr>
+							<td>OS Drive</td>
+							<td>256GB M.2 NVMe SSD</td>
+							<td>~$25</td>
+						</tr>
+						<tr>
+							<td>Storage</td>
+							<td>2× Seagate IronWolf 8TB</td>
+							<td>~$340</td>
+						</tr>
+						<tr>
+							<td>PSU</td>
+							<td>Corsair SF450 SFX</td>
+							<td>~$80</td>
+						</tr>
+						<tr>
+							<td><strong>Total</strong></td>
+							<td></td>
+							<td><strong>~$790</strong></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<h3>Component Rationale</h3>
+			<div class="card-grid">
+				<div class="card">
+					<div class="card-title">Intel N100 — ASRock N100DC-ITX</div>
+					<div class="card-body">
+						~6W idle power draw running 24/7. Built-in Intel QuickSync for Plex
+						hardware transcoding. CPU is soldered — no separate purchase needed.
+						2.5GbE port built-in; faster than the 1Gbps router port, which
+						becomes the practical bottleneck at ~115 MB/s real-world.
+					</div>
+				</div>
+				<div class="card">
+					<div class="card-title">Jonsbo N2</div>
+					<div class="card-body">
+						222 × 222 × 224mm compact cube — 11L total volume. 5 hot-swap 3.5″
+						bays plus a 2.5″ SSD tray. Hot-swap means a failed drive can be
+						replaced without powering down. Requires SFX PSU (150mm max).
+					</div>
+				</div>
+				<div class="card">
+					<div class="card-title">16GB Single Stick DDR4 SODIMM</div>
+					<div class="card-body">
+						One stick leaves the second slot open. Add another 16GB for ~$30
+						when needed. Board supports 32GB maximum.
+					</div>
+				</div>
+				<div class="card">
+					<div class="card-title">2× Seagate IronWolf 8TB</div>
+					<div class="card-body">
+						NAS-rated drives built for 24/7 operation. 1M hours MTBF. 3-year
+						warranty. Starting with 2 drives leaves 3 bays completely open for
+						future expansion.
+					</div>
+				</div>
+			</div>
+
+			<h3>Storage Configuration</h3>
+			<p>
+				<strong>JBOD — No RAID.</strong> Media content is re-downloadable so
+				RAID overhead isn't justified. Full 16TB available from day one.
+			</p>
+
+			<div class="arch-block">
+				<pre><code>Drive 1 — 8TB  →  Movies
+Drive 2 — 8TB  →  TV Shows
+Bay 3          →  Empty
+Bay 4          →  Empty
+Bay 5          →  Empty</code></pre>
+			</div>
+
+			<p>
+				For personal documents or work files added later, use a simple cloud
+				backup (Backblaze B2, iCloud) for just those folders rather than
+				converting to RAID.
+			</p>
+
+			<h3>Power Consumption</h3>
+			<div class="table-wrap">
+				<table>
+					<thead>
+						<tr>
+							<th>State</th>
+							<th>Draw</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Idle</td>
+							<td>~15–25W</td>
+						</tr>
+						<tr>
+							<td>Plex Streaming</td>
+							<td>~30–40W</td>
+						</tr>
+						<tr>
+							<td>Full Load</td>
+							<td>~50–60W</td>
+						</tr>
+						<tr>
+							<td>Monthly Electricity</td>
+							<td>~$3–5</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<h3>Upgrade Path</h3>
+			<div class="upgrade-steps">
+				<div class="upgrade-step">
+					<div class="upgrade-step-icon">→</div>
+					<div class="upgrade-step-content">
+						<div class="upgrade-step-title">Add RAM</div>
+						<div class="upgrade-step-detail">
+							Second 16GB SODIMM — ~$30 — 32GB total
+						</div>
+					</div>
+				</div>
+				<div class="upgrade-step">
+					<div class="upgrade-step-icon">→</div>
+					<div class="upgrade-step-content">
+						<div class="upgrade-step-title">Add Drive #3</div>
+						<div class="upgrade-step-detail">
+							IronWolf 8TB — ~$170 — 24TB raw total
+						</div>
+					</div>
+				</div>
+				<div class="upgrade-step">
+					<div class="upgrade-step-icon">→</div>
+					<div class="upgrade-step-content">
+						<div class="upgrade-step-title">Fill Remaining Bays</div>
+						<div class="upgrade-step-detail">
+							Drives 4 + 5 — ~$340 — 40TB raw total
+						</div>
+					</div>
+				</div>
+				<div class="upgrade-step">
+					<div class="upgrade-step-icon">→</div>
+					<div class="upgrade-step-content">
+						<div class="upgrade-step-title">Swap Board</div>
+						<div class="upgrade-step-detail">
+							More powerful Mini-ITX — ~$200–300 — same case + drives
+						</div>
+					</div>
+				</div>
+				<div class="upgrade-step">
+					<div class="upgrade-step-icon">→</div>
+					<div class="upgrade-step-content">
+						<div class="upgrade-step-title">Outgrow N2</div>
+						<div class="upgrade-step-detail">
+							Jonsbo N3 (8 bays) — ~$180 — move everything over
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<h3>Software Stack</h3>
+			<div class="table-wrap">
+				<table>
+					<thead>
+						<tr>
+							<th>Layer</th>
+							<th>Choice</th>
+							<th>Cost</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>OS</td>
+							<td>Unraid</td>
+							<td>$59 one-time</td>
+						</tr>
+						<tr>
+							<td>OS (alt)</td>
+							<td>TrueNAS Scale</td>
+							<td>Free</td>
+						</tr>
+						<tr>
+							<td>Media Server</td>
+							<td>Plex Media Server</td>
+							<td>Free</td>
+						</tr>
+						<tr>
+							<td>Offline Viewing</td>
+							<td>Jellyfin</td>
+							<td>Free</td>
+						</tr>
+						<tr>
+							<td>VPN</td>
+							<td>WireGuard</td>
+							<td>Free</td>
+						</tr>
+						<tr>
+							<td>DNS</td>
+							<td>DuckDNS</td>
+							<td>Free</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<h3>Connection Speeds</h3>
+			<p>
+				The N100DC-ITX has a built-in 2.5GbE port. Your router's 1Gbps ports are
+				the bottleneck — still delivering ~115 MB/s real-world local transfer
+				speed. More than sufficient for multiple simultaneous 4K Remux streams.
+			</p>
+			<p>
+				For remote access, your 1Gbps symmetric fiber upload means a 4K Remux
+				stream at 80Mbps uses only 8% of available upload bandwidth. No
+				constraints on remote quality.
+			</p>
+		</section>
+
+		<!-- ═══════════════════════════════════════
+  5 · MEDIA LIBRARY & PLEX
+═══════════════════════════════════════ -->
+		<section class="section" id="media-plex">
+			<div class="section-label">05</div>
+			<h2>Media Library & Plex</h2>
+
+			<h3>How Plex Works</h3>
+			<div class="arch-block">
+				<pre><code>Media files on NAS storage
+        ↓
+Plex Media Server  ·  runs 24/7 on NAS
+Scrapes metadata — posters, cast, ratings
+Organizes into Netflix-style library
+        ↓
+Plex app on Apple TV / iPhone / iPad
+Requests content → server streams it</code></pre>
+			</div>
+
+			<h3>Direct Play vs Transcoding</h3>
+			<div class="card-grid">
+				<div class="card">
+					<div class="card-title">Direct Play — Always preferred</div>
+					<div class="card-body">
+						Client natively plays the file format. Plex sends it as-is. Zero CPU
+						usage on your server. Apple TV 4K direct plays the vast majority of
+						common formats.
+					</div>
+				</div>
+				<div class="card">
+					<div class="card-title">Transcoding — Rare fallback</div>
+					<div class="card-body">
+						Client can't handle the format. Plex converts on the fly. Intel
+						N100's QuickSync hardware transcoding handles this efficiently when
+						needed.
+					</div>
+				</div>
+			</div>
+
+			<h3>Quality Comparison</h3>
+			<div class="table-wrap">
+				<table>
+					<thead>
+						<tr>
+							<th>Format</th>
+							<th>Bitrate</th>
+							<th>File Size</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>4K UHD Remux</td>
+							<td>50–80 Mbps</td>
+							<td>50–80 GB</td>
+						</tr>
+						<tr>
+							<td>4K HDR x265</td>
+							<td>15–25 Mbps</td>
+							<td>15–25 GB</td>
+						</tr>
+						<tr>
+							<td>1080p Remux</td>
+							<td>variable</td>
+							<td>20–40 GB</td>
+						</tr>
+						<tr>
+							<td>1080p x265</td>
+							<td>4–15 Mbps</td>
+							<td>4–15 GB</td>
+						</tr>
+						<tr>
+							<td>Netflix 4K</td>
+							<td>15–25 Mbps</td>
+							<td>streamed</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<p>
+				Your 4K Remux runs at 3–4× the bitrate Netflix delivers. Lossless TrueHD
+				Atmos audio vs Netflix's Dolby Digital Plus. More retained detail in
+				fast motion, dark scenes, and film grain.
+			</p>
+
+			<h3>Recommended Storage Format</h3>
+			<ul>
+				<li>
+					<strong>Daily standard:</strong> 4K HDR x265 — visually
+					indistinguishable from Remux, fraction of the file size
+				</li>
+				<li>
+					<strong>Favorites / reference:</strong> 4K UHD Remux — definitive
+					quality for films that matter
+				</li>
+				<li>
+					<strong>1080p content:</strong> x265 encoded — half the size of x264
+					with identical quality
+				</li>
+			</ul>
+
+			<h3>Storage Planning</h3>
+			<div class="table-wrap">
+				<table>
+					<thead>
+						<tr>
+							<th>Library Size</th>
+							<th>1080p x265</th>
+							<th>4K HDR x265</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>100 movies</td>
+							<td>~500 GB</td>
+							<td>~2 TB</td>
+						</tr>
+						<tr>
+							<td>500 movies</td>
+							<td>~2.5 TB</td>
+							<td>~10 TB</td>
+						</tr>
+						<tr>
+							<td>1,000 movies</td>
+							<td>~5 TB</td>
+							<td>~20 TB</td>
+						</tr>
+						<tr>
+							<td>+ 50 TV seasons</td>
+							<td>+1 TB</td>
+							<td>+5 TB</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<h3>Offline Viewing</h3>
+			<div class="card-grid">
+				<div class="card">
+					<div class="card-title">Jellyfin — Recommended</div>
+					<div class="card-body">
+						Open source, free forever. Offline download built-in, no
+						subscription. Points at the same NAS media folder as Plex — no
+						duplicate files.
+					</div>
+				</div>
+				<div class="card">
+					<div class="card-title">Plex Pass — Optional</div>
+					<div class="card-body">
+						Built-in Sync/Downloads. ~$120 one-time or $5/mo. Files stay within
+						Plex's DRM wrapper.
+					</div>
+				</div>
+				<div class="card">
+					<div class="card-title">Manual Copy — Simplest</div>
+					<div class="card-body">
+						Connect to NAS via Files app over home WiFi. Copy movies to iPad
+						local storage. Play with VLC or Infuse. No subscriptions, no
+						complexity.
+					</div>
+				</div>
+			</div>
+
+			<h3>Internet Outage Behavior</h3>
+			<div class="table-wrap">
+				<table>
+					<thead>
+						<tr>
+							<th>Feature</th>
+							<th>Works Offline?</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Plex on Apple TV (local)</td>
+							<td><span class="badge badge-green">Yes</span></td>
+						</tr>
+						<tr>
+							<td>Plex on iPhone on home WiFi</td>
+							<td><span class="badge badge-green">Yes</span></td>
+						</tr>
+						<tr>
+							<td>NAS file access locally</td>
+							<td><span class="badge badge-green">Yes</span></td>
+						</tr>
+						<tr>
+							<td>Remote access via WireGuard</td>
+							<td><span class="badge badge-red">No</span></td>
+						</tr>
+						<tr>
+							<td>Plex metadata updates</td>
+							<td><span class="badge badge-red">No</span></td>
+						</tr>
+						<tr>
+							<td>DuckDNS IP updates</td>
+							<td><span class="badge badge-red">No</span></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</section>
+
+		<!-- ═══════════════════════════════════════
+  6 · AUDIO & VIDEO CHAIN
+═══════════════════════════════════════ -->
+		<section class="section" id="audio-video">
+			<div class="section-label">06</div>
+			<h2>Audio &amp; Video Chain</h2>
+
+			<h3>Signal Chain</h3>
+			<div class="signal-chain">
+				<div class="signal-node">
+					<div class="signal-dot"></div>
+					<div>
+						<div class="signal-label">NAS</div>
+						<div class="signal-sub">TrueHD Atmos source file</div>
+					</div>
+				</div>
+				<div class="signal-arrow">│</div>
+				<div class="signal-node">
+					<div class="signal-dot"></div>
+					<div>
+						<div class="signal-label">Apple TV 4K (3rd gen)</div>
+						<div class="signal-sub">
+							Plex → decodes TrueHD → re-encodes DD+ Atmos
+						</div>
+					</div>
+				</div>
+				<div class="signal-arrow">│ HDMI eARC</div>
+				<div class="signal-node">
+					<div class="signal-dot"></div>
+					<div>
+						<div class="signal-label">Sonos Arc</div>
+						<div class="signal-sub">
+							Decodes DD+ Atmos — Atmos logo appears ✓
+						</div>
+					</div>
+				</div>
+				<div class="signal-arrow">│ Wireless</div>
+				<div class="signal-node">
+					<div class="signal-dot"></div>
+					<div>
+						<div class="signal-label">Sonos Sub Gen 2</div>
+						<div class="signal-sub">Low frequency extension</div>
+					</div>
+				</div>
+			</div>
+
+			<p>
+				Apple TV cannot pass raw TrueHD over eARC. It decodes TrueHD Atmos then
+				re-encodes to Dolby Digital Plus with Atmos before sending to the Sonos
+				Arc. The Atmos logo you see is real — full spatial audio processing is
+				active.
+			</p>
+			<p>
+				<strong>The distinction vs Netflix:</strong> Your Remux starts from a
+				higher bitrate lossless master. Even after Apple TV's transcode to DD+
+				Atmos, the result retains more audio information than Netflix's encode —
+				resulting in noticeably better DD+ Atmos output.
+			</p>
+
+			<h3>Sonos Arc Format Support</h3>
+			<div class="table-wrap">
+				<table>
+					<thead>
+						<tr>
+							<th>Format</th>
+							<th>Status</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Dolby Atmos via DD+</td>
+							<td><span class="badge badge-green">Full Spatial</span></td>
+						</tr>
+						<tr>
+							<td>Dolby Digital Plus</td>
+							<td><span class="badge badge-green">Supported</span></td>
+						</tr>
+						<tr>
+							<td>PCM</td>
+							<td><span class="badge badge-green">Supported</span></td>
+						</tr>
+						<tr>
+							<td>TrueHD direct</td>
+							<td><span class="badge badge-neutral">ATV converts</span></td>
+						</tr>
+						<tr>
+							<td>DTS-HD</td>
+							<td><span class="badge badge-red">Not supported</span></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<h3>Apple TV 4K Direct Play</h3>
+			<div class="table-wrap">
+				<table>
+					<thead>
+						<tr>
+							<th>Format</th>
+							<th>Direct Play</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>H.264</td>
+							<td><span class="badge badge-green">Always</span></td>
+						</tr>
+						<tr>
+							<td>H.265 / HEVC</td>
+							<td><span class="badge badge-green">Yes</span></td>
+						</tr>
+						<tr>
+							<td>4K HDR10</td>
+							<td><span class="badge badge-green">Yes</span></td>
+						</tr>
+						<tr>
+							<td>Dolby Vision</td>
+							<td><span class="badge badge-green">Yes (3rd gen)</span></td>
+						</tr>
+						<tr>
+							<td>TrueHD Atmos</td>
+							<td><span class="badge badge-neutral">DD+ Atmos out</span></td>
+						</tr>
+						<tr>
+							<td>AC3 / EAC3</td>
+							<td><span class="badge badge-green">Yes</span></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</section>
+
+		<!-- ═══════════════════════════════════════
+  7 · REMOTE ACCESS STRATEGY
+═══════════════════════════════════════ -->
+		<section class="section" id="remote-access">
+			<div class="section-label">07</div>
+			<h2>Remote Access Strategy</h2>
+
+			<h3>Device Map</h3>
+			<div class="table-wrap">
+				<table>
+					<thead>
+						<tr>
+							<th>Device</th>
+							<th>Location</th>
+							<th>Access Method</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Apple TV 4K</td>
+							<td>Always home</td>
+							<td>Local network — no VPN ever</td>
+						</tr>
+						<tr>
+							<td>iPhone</td>
+							<td>Home</td>
+							<td>Local — no VPN needed</td>
+						</tr>
+						<tr>
+							<td>iPhone</td>
+							<td>Traveling</td>
+							<td>Config #2 for Plex</td>
+						</tr>
+						<tr>
+							<td>iPhone</td>
+							<td>Traveling</td>
+							<td>Config #1 for privacy</td>
+						</tr>
+						<tr>
+							<td>iPad</td>
+							<td>Home</td>
+							<td>Local — no VPN needed</td>
+						</tr>
+						<tr>
+							<td>iPad</td>
+							<td>Traveling</td>
+							<td>Same as iPhone</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<h3>Why Apple TV Stays Home</h3>
+			<p>
+				tvOS restricts persistent background VPN connections. Running WireGuard
+				continuously on Apple TV isn't natively supported. Keeping Apple TV at
+				home means it always streams locally at full quality with zero
+				configuration — the ideal setup.
+			</p>
+
+			<h3>Why Not Tailscale</h3>
+			<p>
+				Tailscale is excellent but its coordination server isn't self-hosted
+				unless you also run Headscale. For two devices and two configs, plain
+				WireGuard is simpler and fully self-contained. Tailscale adds complexity
+				that isn't needed here.
+			</p>
+
+			<h3>Why Not Plex Built-in Remote Access</h3>
+			<p>
+				Traffic routes through Plex's relay servers, and your home IP is either
+				exposed or Plex's infrastructure is in the trust chain. WireGuard gives
+				direct device-to-home connection with no intermediary involved.
+			</p>
+
+			<h3>Home Server Exposure</h3>
+			<p>
+				The home server has exactly <strong>one UDP port open</strong> (51821)
+				on the router. WireGuard's cryptokey routing means this port is
+				completely silent to anyone without your private keys. Scanners receive
+				no response and move on. It's effectively invisible to the public
+				internet.
+			</p>
+		</section>
+
+		<!-- ═══════════════════════════════════════
+  8 · LOCAL LLM
+═══════════════════════════════════════ -->
+		<section class="section" id="local-llm">
+			<div class="section-label">08</div>
+			<h2>Local LLM <span style="color: var(--text-secondary);"">(Future)</span></h2>
+
+			<p>
+				The N100 build can run local language models today without hardware
+				changes. CPU inference is slower than GPU but fully functional for
+				personal use.
+			</p>
+
+			<h3>Model Size vs RAM</h3>
+			<div class="table-wrap">
+				<table>
+					<thead>
+						<tr>
+							<th>Model</th>
+							<th>RAM Needed</th>
+							<th>Capability</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Llama 3.2 3B</td>
+							<td>~4 GB</td>
+							<td>Basic, fast</td>
+						</tr>
+						<tr>
+							<td>Llama 3.1 8B</td>
+							<td>~8 GB</td>
+							<td>Good all-rounder</td>
+						</tr>
+						<tr>
+							<td>Llama 3.1 8B Q4</td>
+							<td>~5 GB</td>
+							<td>Near-same quality, smaller</td>
+						</tr>
+						<tr>
+							<td>Mistral 7B</td>
+							<td>~8 GB</td>
+							<td>Excellent for size</td>
+						</tr>
+						<tr>
+							<td>Llama 3.1 70B Q4</td>
+							<td>~24 GB</td>
+							<td>Very capable</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<p>
+				With 16GB RAM and the N100: runs 7–8B models at ~10–20 tokens/second on
+				CPU — usable for personal chat. Upgrade to 32GB to run quantized 70B
+				models.
+			</p>
+
+			<h3>Software Stack</h3>
+
+			<div class="code-block">
+				<div class="code-header">
+					<span class="code-lang">bash — Ollama Setup</span>
+					<button class="code-copy" onclick="copyCode(this)">Copy</button>
+				</div>
+				<pre><code><span class="c"># Install Ollama</span>
+curl -fsSL https://ollama.com/install.sh | sh
+
+<span class="c"># Pull and run a model</span>
+ollama pull llama3.1:8b
+ollama run llama3.1:8b</code></pre>
+			</div>
+
+			<p>
+				<strong>Open WebUI</strong> provides a ChatGPT-style browser interface
+				connected to Ollama. Accessible from any device on your home network or
+				through the WireGuard tunnel remotely.
+			</p>
+
+			<h3>GPU Addition</h3>
+			<p>
+				The Jonsbo N2 accepts low profile GPUs up to 197mm only — a significant
+				constraint. Better long-term path: keep the N2 for NAS/Plex/WireGuard
+				(QuickSync handles transcoding), and add a separate small form factor PC
+				with a full-size GPU for AI workloads.
+			</p>
+
+			<div class="table-wrap">
+				<table>
+					<thead>
+						<tr>
+							<th>GPU</th>
+							<th>VRAM</th>
+							<th>Fits N2</th>
+							<th>Notes</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>RTX 3060 12GB</td>
+							<td>12 GB</td>
+							<td><span class="badge badge-red">No</span></td>
+							<td>Too large</td>
+						</tr>
+						<tr>
+							<td>RTX A2000 12GB</td>
+							<td>12 GB</td>
+							<td><span class="badge badge-green">Yes</span></td>
+							<td>~$400</td>
+						</tr>
+						<tr>
+							<td>RTX 3050 6GB</td>
+							<td>6 GB</td>
+							<td><span class="badge badge-green">Yes</span></td>
+							<td>Limiting VRAM</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<h3>Upgrade Path</h3>
+			<div class="upgrade-steps">
+				<div class="upgrade-step">
+					<div class="upgrade-step-icon">01:</div>
+					<div class="upgrade-step-content">
+						<div class="upgrade-step-title">Now — CPU Inference</div>
+						<div class="upgrade-step-detail">
+							N100, 8B models, ~10–20 tok/s personal use
+						</div>
+					</div>
+				</div>
+				<div class="upgrade-step">
+					<div class="upgrade-step-icon">02:</div>
+					<div class="upgrade-step-content">
+						<div class="upgrade-step-title">Add 32GB RAM</div>
+						<div class="upgrade-step-detail">
+							Run quantized 70B models on CPU
+						</div>
+					</div>
+				</div>
+				<div class="upgrade-step">
+					<div class="upgrade-step-icon">03:</div>
+					<div class="upgrade-step-content">
+						<div class="upgrade-step-title">Separate SFF PC + Full GPU</div>
+						<div class="upgrade-step-detail">
+							RTX 3060 12GB, fast inference, no case constraints
+						</div>
+					</div>
+				</div>
+				<div class="upgrade-step">
+					<div class="upgrade-step-icon">04:</div>
+					<div class="upgrade-step-content">
+						<div class="upgrade-step-title">RTX 3090 24GB</div>
+						<div class="upgrade-step-detail">Run 70B models at full speed</div>
+					</div>
+				</div>
+			</div>
+
+			<p>
+				<strong>Privacy benefit:</strong> Everything stays on your hardware. No
+				OpenAI, Anthropic, or Google sees your queries. Combined with the VPN
+				stack — a fully private AI assistant accessible from anywhere via
+				WireGuard.
+			</p>
+		</section>
+
+		<!-- ═══════════════════════════════════════
+  9 · COST SUMMARY
+═══════════════════════════════════════ -->
+		<section class="section" id="cost-summary">
+			<div class="section-label">09</div>
+			<h2>Full Cost<br />Summary</h2>
+
+			<div class="cost-hero">
+				<div class="cost-hero-label">Year One Total</div>
+				<div class="cost-hero-amount">~$957</div>
+				<div class="cost-hero-sub">
+					Hardware + optional Unraid license + first year running costs
+				</div>
+			</div>
+
+			<h3>One-Time Hardware</h3>
+			<div class="table-wrap">
+				<table>
+					<thead>
+						<tr>
+							<th>Item</th>
+							<th>Cost</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>NAS Build — 2× 8TB baseline</td>
+							<td>~$790</td>
+						</tr>
+						<tr>
+							<td>Unraid License (optional)</td>
+							<td>$59</td>
+						</tr>
+						<tr>
+							<td>Raspberry Pi test setup (optional)</td>
+							<td>~$90–150</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<h3>Ongoing Costs</h3>
+			<div class="table-wrap">
+				<table>
+					<thead>
+						<tr>
+							<th>Item</th>
+							<th>Monthly</th>
+							<th>Annual</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Hetzner CX22 VPS</td>
+							<td>~€4 (~$5)</td>
+							<td>~$60</td>
+						</tr>
+						<tr>
+							<td>Electricity (NAS 24/7)</td>
+							<td>~$4</td>
+							<td>~$48</td>
+						</tr>
+						<tr>
+							<td>DuckDNS</td>
+							<td>$0</td>
+							<td>$0</td>
+						</tr>
+						<tr>
+							<td>WireGuard</td>
+							<td>$0</td>
+							<td>$0</td>
+						</tr>
+						<tr>
+							<td>Plex</td>
+							<td>$0</td>
+							<td>$0</td>
+						</tr>
+						<tr>
+							<td>Jellyfin</td>
+							<td>$0</td>
+							<td>$0</td>
+						</tr>
+						<tr>
+							<td><strong>Total Ongoing</strong></td>
+							<td><strong>~$9/mo</strong></td>
+							<td><strong>~$108/yr</strong></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<p>
+				Subsequent years: ~$108/year. No subscriptions, no commercial VPN fees,
+				no Synology/QNAP cloud services.
+			</p>
+		</section>
+
+		<!-- ─── FOOTER ─── -->
+		<footer class="footer">
+			<p>&copy; 2026 Lane Melancon</p>
+		</footer>
+
+		<!-- ═══════════════════════════════════════
+  BOTTOM PILL NAV
+═══════════════════════════════════════ -->
+		<div id="nav-pill">
+			<!-- Open panel (sits above closed bar) -->
+			<div class="nav-open-panel" id="navPanel">
+				<div class="nav-panel-header">
+					<span class="nav-panel-title">Table of Contents</span>
+					<div class="nav-close-btn" id="navCloseBtn">
+						<svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+							<path
+								d="M1 1L9 9M9 1L1 9"
+								stroke="#666"
+								stroke-width="1.5"
+								stroke-linecap="round"
+							/>
+						</svg>
+					</div>
+				</div>
+				<div class="nav-toc-list" id="tocList">
+					<!-- generated by JS -->
+				</div>
+			</div>
+
+			<div class="nav-spacer"></div>
+
+			<!-- Closed bar -->
+			<div class="nav-closed" id="navClosed">
+				<span class="nav-section-name" id="navSectionName">Overall Goals</span>
+				<div class="nav-menu-btn" id="navMenuBtn">
+					<svg
+						id="menuIcon"
+						width="14"
+						height="14"
+						viewBox="0 0 14 14"
+						fill="none"
+					>
+						<path
+							d="M2 4h10M2 7h10M2 10h10"
+							stroke="#888"
+							stroke-width="1.4"
+							stroke-linecap="round"
+						/>
+					</svg>
+				</div>
+			</div>
+		</div>
+
+		<script>
+			const sections = [
+				{ id: 'overall-goals', label: 'Overall Goals' },
+				{ id: 'key-decisions', label: 'Key Decisions' },
+				{ id: 'vpn-stack', label: 'VPN Stack' },
+				{ id: 'nas-build', label: 'Home Server / NAS Build' },
+				{ id: 'media-plex', label: 'Media Library & Plex' },
+				{ id: 'audio-video', label: 'Audio & Video Chain' },
+				{ id: 'remote-access', label: 'Remote Access Strategy' },
+				{ id: 'local-llm', label: 'Local LLM (Future)' },
+				{ id: 'cost-summary', label: 'Full Cost Summary' },
+			];
+
+			const navPanel = document.getElementById('navPanel');
+			const navClosed = document.getElementById('navClosed');
+			const navMenuBtn = document.getElementById('navMenuBtn');
+			const navCloseBtn = document.getElementById('navCloseBtn');
+			const navName = document.getElementById('navSectionName');
+			const tocList = document.getElementById('tocList');
+
+			let isOpen = false;
+			let activeId = sections[0].id;
+
+			// Build TOC list
+			sections.forEach((s, i) => {
+				const item = document.createElement('div');
+				item.className = 'nav-toc-item' + (s.id === activeId ? ' active' : '');
+				item.dataset.id = s.id;
+				item.innerHTML = `
+      <span class="nav-toc-num">${String(i + 1).padStart(2, '0')}</span>
+      <span class="nav-toc-label">${s.label}</span>
+      <span class="nav-toc-arrow">→</span>
+    `;
+				item.addEventListener('click', () => navigateTo(s.id));
+				tocList.appendChild(item);
+			});
+
+			function openNav() {
+				isOpen = true;
+				navPanel.classList.add('is-open');
+				navMenuBtn.style.background = 'rgba(212,201,168,0.18)';
+				navMenuBtn.style.borderColor = 'rgba(212,201,168,0.35)';
+				navMenuBtn.querySelector('path').setAttribute('stroke', '#d4c9a8');
+			}
+
+			function closeNav(callback) {
+				isOpen = false;
+				navPanel.classList.remove('is-open');
+				navMenuBtn.style.background = '';
+				navMenuBtn.style.borderColor = '';
+				navMenuBtn.querySelector('path').setAttribute('stroke', '#888');
+				// Wait for the full reverse animation to complete before firing callback
+				if (callback) setTimeout(callback, 360);
+			}
+
+			function navigateTo(id) {
+				closeNav(() => {
+					const el = document.getElementById(id);
+					if (el) {
+						const offset = 80;
+						const top =
+							el.getBoundingClientRect().top + window.scrollY - offset;
+						window.scrollTo({ top, behavior: 'smooth' });
+					}
+					setActive(id);
+				});
+			}
+
+			function setActive(id) {
+				activeId = id;
+				const section = sections.find((s) => s.id === id);
+				if (section) navName.textContent = section.label;
+				document.querySelectorAll('.nav-toc-item').forEach((item) => {
+					item.classList.toggle('active', item.dataset.id === id);
+				});
+			}
+
+			navClosed.addEventListener('click', () => {
+				isOpen ? closeNav() : openNav();
+			});
+
+			navCloseBtn.addEventListener('click', (e) => {
+				e.stopPropagation();
+				closeNav();
+			});
+
+			// Close on outside click
+			document.addEventListener('click', (e) => {
+				if (isOpen && !document.getElementById('nav-pill').contains(e.target)) {
+					closeNav();
+				}
+			});
+
+			// IntersectionObserver — track active section
+			const observer = new IntersectionObserver(
+				(entries) => {
+					entries.forEach((entry) => {
+						if (entry.isIntersecting) {
+							setActive(entry.target.id);
+						}
+					});
+				},
+				{
+					rootMargin: '-20% 0px -60% 0px',
+					threshold: 0,
+				},
+			);
+
+			sections.forEach((s) => {
+				const el = document.getElementById(s.id);
+				if (el) observer.observe(el);
+			});
+
+			// Copy code button
+			function copyCode(btn) {
+				const pre = btn.closest('.code-block').querySelector('pre');
+				const text = pre.innerText || pre.textContent;
+				navigator.clipboard.writeText(text).then(() => {
+					btn.textContent = 'Copied';
+					btn.classList.add('copied');
+					setTimeout(() => {
+						btn.textContent = 'Copy';
+						btn.classList.remove('copied');
+					}, 2000);
+				});
+			}
+		</script>
+	</body>
+</html>
